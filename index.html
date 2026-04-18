@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Fazliddin | Welcome</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --bg: #020202;
+            --panel: rgba(9, 12, 10, 0.5);
+            --panel-strong: rgba(11, 15, 12, 0.72);
+            --line: rgba(255, 255, 255, 0.14);
+            --text: #f4efe6;
+            --muted: rgba(244, 239, 230, 0.68);
+            --soft: rgba(244, 239, 230, 0.18);
+            --accent: #d8c2a1;
+            --shadow: 0 24px 60px rgba(0, 0, 0, 0.42);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            background: var(--bg);
+        }
+
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: "Manrope", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top, rgba(218, 205, 176, 0.14), transparent 32%),
+                linear-gradient(180deg, rgba(4, 4, 4, 0.2), rgba(4, 4, 4, 0.88)),
+                #010101;
+        }
+
+        body.site-ready {
+            overflow: auto;
+        }
+
+        .background-scene,
+        .background-scene::before,
+        .background-scene::after {
+            position: fixed;
+            inset: 0;
+        }
+
+        .background-scene {
+            background:
+                linear-gradient(180deg, rgba(2, 3, 4, 0.1), rgba(2, 3, 4, 0.82)),
+                url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
+            z-index: -3;
+            transform: scale(1.05);
+        }
+
+        .background-scene::before {
+            content: "";
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255, 226, 188, 0.22), transparent 26%),
+                radial-gradient(circle at 80% 18%, rgba(167, 205, 255, 0.16), transparent 24%);
+            z-index: -2;
+        }
+
+        .background-scene::after {
+            content: "";
+            background:
+                linear-gradient(180deg, rgba(2, 2, 2, 0.1), rgba(2, 2, 2, 0.42) 35%, rgba(2, 2, 2, 0.84)),
+                rgba(0, 0, 0, 0.18);
+            backdrop-filter: blur(2px);
+            z-index: -1;
+        }
+
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background:
+                radial-gradient(circle at top, rgba(216, 194, 161, 0.14), transparent 24%),
+                #000;
+            cursor: pointer;
+            transition: opacity 0.7s ease, visibility 0.7s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loading-card {
+            width: min(100%, 420px);
+            padding: 34px 28px;
+            border-radius: 34px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: linear-gradient(180deg, rgba(17, 17, 17, 0.88), rgba(8, 8, 8, 0.94));
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+            text-align: center;
+        }
+
+        .avatar-ring {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 22px;
+            padding: 4px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(216, 194, 161, 0.95), rgba(255, 255, 255, 0.24));
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.38);
+        }
+
+        .avatar-ring img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(0, 0, 0, 0.72);
+            background: #171717;
+        }
+
+        .loading-title,
+        .profile-name {
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(2.7rem, 8vw, 4.2rem);
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            line-height: 0.95;
+            text-transform: uppercase;
+        }
+
+        .loading-subtitle {
+            margin-top: 14px;
+            color: var(--muted);
+            font-size: 0.92rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+        }
+
+        .loading-note {
+            margin-top: 12px;
+            color: rgba(244, 239, 230, 0.86);
+            font-size: 1rem;
+        }
+
+        .loading-note span {
+            display: block;
+            margin-top: 6px;
+            color: rgba(244, 239, 230, 0.52);
+            font-size: 0.82rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .app-shell {
+            min-height: 100vh;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            padding: 22px 16px 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-shell.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .music-toggle {
+            position: fixed;
+            top: max(18px, env(safe-area-inset-top));
+            right: 16px;
+            width: 52px;
+            height: 52px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: rgba(7, 8, 8, 0.44);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            color: var(--text);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.26);
+            z-index: 20;
+        }
+
+        .music-toggle i {
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+        .music-toggle.muted i::after {
+            content: "";
+            position: absolute;
+            top: 48%;
+            left: -18%;
+            width: 138%;
+            height: 2px;
+            background: #fff0db;
+            border-radius: 999px;
+            transform: rotate(-42deg);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.55);
+        }
+
+        .profile-card {
+            width: min(100%, 460px);
+            padding: 28px 18px 22px;
+            border-radius: 32px;
+            border: 1px solid var(--line);
+            background:
+                linear-gradient(180deg, rgba(13, 16, 14, 0.6), rgba(9, 10, 10, 0.62)),
+                var(--panel);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        .profile-top {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .profile-avatar {
+            width: 106px;
+            height: 106px;
+            padding: 3px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(216, 194, 161, 0.95), rgba(255, 255, 255, 0.22));
+            margin-bottom: 16px;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(5, 5, 5, 0.72);
+            background: #171717;
+        }
+
+        .profile-domain {
+            margin-top: 10px;
+            color: rgba(244, 239, 230, 0.38);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-size: 0.76rem;
+        }
+
+        .social-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .social-link {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 54px 1fr;
+            gap: 14px;
+            align-items: center;
+            padding: 14px 16px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
+            color: inherit;
+            text-decoration: none;
+            transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+        }
+
+        .social-link:hover,
+        .social-link:focus-visible {
+            transform: translateY(-2px);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
+            border-color: rgba(216, 194, 161, 0.35);
+            outline: none;
+        }
+
+        .social-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 1.3rem;
+            color: #fff1dc;
+        }
+
+        .social-text strong,
+        .social-text span {
+            display: block;
+        }
+
+        .social-text strong {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .social-text span {
+            margin-top: 3px;
+            font-size: 0.83rem;
+            color: var(--muted);
+        }
+
+        .profile-footer {
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+            color: rgba(244, 239, 230, 0.76);
+            font-size: 0.86rem;
+            line-height: 1.7;
+        }
+
+        .profile-footer .dot {
+            padding: 0 8px;
+            color: rgba(244, 239, 230, 0.44);
+        }
+
+        .audio-player {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .app-shell {
+                padding: 30px 24px 42px;
+            }
+
+            .profile-card {
+                padding: 34px 24px 24px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .loading-card {
+                padding: 28px 22px;
+            }
+
+            .avatar-ring {
+                width: 122px;
+                height: 122px;
+            }
+
+            .profile-card {
+                border-radius: 28px;
+                padding: 24px 14px 18px;
+            }
+
+            .social-link {
+                grid-template-columns: 48px 1fr;
+                gap: 12px;
+                padding: 12px 13px;
+                border-radius: 22px;
+            }
+
+            .social-icon {
+                width: 48px;
+                height: 48px;
+                border-radius: 16px;
+            }
+
+            .music-toggle {
+                width: 48px;
+                height: 48px;
+                border-radius: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-scene" aria-hidden="true"></div>
+
+    <div class="loading-screen" id="loadingScreen" role="button" tabindex="0" aria-label="Saytga kirish">
+        <div class="loading-card">
+            <div class="avatar-ring">
+                <img src="profile.jpg" alt="Fazliddin rasmi"
+                    onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=Fazliddin&size=320&background=1d1d1d&color=f5efe5&bold=true';">
+            </div>
+            <div class="loading-title">Fazliddin</div>
+            <div class="loading-subtitle">Official Page</div>
+            <div class="loading-note">
+                Welcome! , press to enter
+                <span>Tap anywhere to continue</span>
+            </div>
+        </div>
+    </div>
+
+    <main class="app-shell" id="appShell">
+        <button class="music-toggle" id="musicToggle" type="button" aria-label="Musiqani yoqish yoki o'chirish">
+            <i class="fa-solid fa-music"></i>
+        </button>
+
+        <section class="profile-card">
+            <div class="profile-top">
+                <div class="profile-avatar">
+                    <img src="profile.jpg" alt="Fazliddin rasmi"
+                        onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=Fazliddin&size=320&background=1d1d1d&color=f5efe5&bold=true';">
+                </div>
+                <h1 class="profile-name">Fazliddin</h1>
+                <div class="profile-domain">www.fazliddin.uz</div>
+            </div>
+
+            <div class="social-list">
+                <a class="social-link" href="https://t.me/fazliddin" target="_blank" rel="noreferrer">
+                    <div class="social-icon"><i class="fa-brands fa-telegram"></i></div>
+                    <div class="social-text">
+                        <strong>Telegram</strong>
+                        <span>Oddiy Fazliddin</span>
+                    </div>
+                </a>
+
+                <a class="social-link" href="https://instagram.com/fazliddin" target="_blank" rel="noreferrer">
+                    <div class="social-icon"><i class="fa-brands fa-instagram"></i></div>
+                    <div class="social-text">
+                        <strong>Instagram</strong>
+                        <span>Oddiy Fazliddin</span>
+                    </div>
+                </a>
+
+                <a class="social-link" href="https://www.tiktok.com/@fazliddin" target="_blank" rel="noreferrer">
+                    <div class="social-icon"><i class="fa-brands fa-tiktok"></i></div>
+                    <div class="social-text">
+                        <strong>TikTok</strong>
+                        <span>Oddiy Fazliddin</span>
+                    </div>
+                </a>
+
+                <a class="social-link" href="https://www.youtube.com/@fazliddin" target="_blank" rel="noreferrer">
+                    <div class="social-icon"><i class="fa-brands fa-youtube"></i></div>
+                    <div class="social-text">
+                        <strong>YouTube</strong>
+                        <span>Oddiy Fazliddin</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="profile-footer">
+                Qashqadaryo, Uzbekistan &#127482;&#127487; <span class="dot">&bull;</span> Fazliddin.uz
+            </div>
+        </section>
+    </main>
+
+    <audio class="audio-player" id="bgAudio" preload="auto" loop>
+        <source src="https://cdn.pixabay.com/audio/2023/03/16/audio_0dda1f24e1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        (() => {
+            const body = document.body;
+            const loadingScreen = document.getElementById("loadingScreen");
+            const appShell = document.getElementById("appShell");
+            const bgAudio = document.getElementById("bgAudio");
+            const musicToggle = document.getElementById("musicToggle");
+
+            let entered = false;
+            let muted = false;
+
+            bgAudio.volume = 0.24;
+
+            function startAudio() {
+                if (muted) {
+                    bgAudio.muted = true;
+                    return;
+                }
+
+                bgAudio.muted = false;
+                bgAudio.play().catch(() => {
+                    musicToggle.classList.add("muted");
+                    muted = true;
+                });
+            }
+
+            function enterSite() {
+                if (entered) {
+                    return;
+                }
+
+                entered = true;
+                loadingScreen.classList.add("hidden");
+                appShell.classList.add("visible");
+                body.classList.add("site-ready");
+                startAudio();
+            }
+
+            function toggleAudio() {
+                muted = !muted;
+                bgAudio.muted = muted;
+                musicToggle.classList.toggle("muted", muted);
+
+                if (!muted && bgAudio.paused) {
+                    bgAudio.play().catch(() => {
+                        muted = true;
+                        bgAudio.muted = true;
+                        musicToggle.classList.add("muted");
+                    });
+                }
+            }
+
+            loadingScreen.addEventListener("click", enterSite);
+            loadingScreen.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    enterSite();
+                }
+            });
+
+            musicToggle.addEventListener("click", toggleAudio);
+        })();
+    </script>
+</body>
+
+</html>
